@@ -1,7 +1,15 @@
-FROM ruby:3.1
+FROM ruby:3.1.2-bullseye
 
 RUN mkdir /myapp
 WORKDIR /myapp
+
+RUN apk add --no-cache alpine-sdk \
+    mysql-client \
+    mysql-dev \
+    build-base \
+    bash \
+    tzdata
+
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 
