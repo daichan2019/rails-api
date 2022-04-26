@@ -1,4 +1,7 @@
-FROM ruby:3.1.2-bullseye
+FROM ruby:3.1.2-alpine
+
+ENV LANG=C.UTF-8
+ENV TZ=Asia/Tokyo
 
 RUN mkdir /myapp
 WORKDIR /myapp
@@ -13,7 +16,9 @@ RUN apk add --no-cache alpine-sdk \
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 
-RUN bundle install
+RUN gem install bundler
+RUN bundle install --jobs 4
+
 COPY . /myapp
 
 COPY entrypoint.sh /usr/bin/
